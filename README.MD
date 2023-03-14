@@ -21,6 +21,6 @@ It probably would work in headless mode but I am running it via a virtual screen
 xvfb-run --server-args="-screen 0 1024x768x24" node app.mjs
 ```
 
-bot is available on https://t.me/bravethebot
-bot is very slow as I am on capacity on my current bot server
+- bot is available on https://t.me/bravethebot
+- bot is very slow as I am on capacity on my current bot server
 - TODO: Upgrade server / delete some bots
