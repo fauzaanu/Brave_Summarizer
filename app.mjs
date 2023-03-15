@@ -19,9 +19,9 @@ bot.onText(/\/brave (.+)/, async (msg, match) => {
     bot.sendMessage(chatId, "Brave Summarizer is not found for this query!");
     return;
   }
-});
 
-bot.sendPhoto(chatId, photo);
+  bot.sendPhoto(chatId, photo);
+});
 
 async function BraveSummarizer(query) {
   try {
