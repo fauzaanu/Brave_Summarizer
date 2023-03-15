@@ -4,12 +4,7 @@ import fs from "fs";
 import dotenv from "dotenv";
 
 dotenv.config();
-
-const token = process.env.TOKEN;
-const bot = new TelegramBot(token, { polling: true });
-
-// the bot may crash if chromium crashes so we need to handle it
-// it may crash with a timeout as well
+const bot = new TelegramBot(process.env.TOKEN, { polling: true });
 
 bot.onText(/\/brave (.+)/, async (msg, match) => {
   const chatId = msg.chat.id;
@@ -18,14 +13,18 @@ bot.onText(/\/brave (.+)/, async (msg, match) => {
   if (photo === "Error: Element not found") {
     bot.sendMessage(chatId, "Brave Summarizer is not found for this query!");
     return;
+  } else if (photo === "Error: Runtime Error.") {
+    bot.sendMessage(chatId, "Runtime Error!");
+    return;
+  } else if (photo === "screenshot.png") {
+    bot.sendPhoto(chatId, fs.createReadStream("screenshot.png"));
+    return;
   }
-
-  bot.sendPhoto(chatId, photo);
 });
 
 async function BraveSummarizer(query) {
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(`https://search.brave.com/search?q=${query}`, {
       waituntil: "networkidle0",
